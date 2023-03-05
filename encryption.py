@@ -89,7 +89,7 @@ while mode != "QUIT":
     else:
 
         if WRITEBACK[1]:
-            print(f"SUCCESS {WRITEBACK[0]}\n")
+            print(f"RESULT {WRITEBACK[0]}\n")
         else:
             print(f"ERROR {WRITEBACK[0]}\n")
 

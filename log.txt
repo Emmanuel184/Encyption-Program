@@ -1,8 +1,0 @@
-2023-03-04 20:12 START Logging Started
-2023-03-04 20:12 action message
-2023-03-04 20:33 START Logging Started
-2023-03-04 20:33 ENCRYPT dasjkhd
-2023-03-04 20:34 START Logging Started
-2023-03-04 20:34 ENCRYPT asjdkh
-2023-03-04 20:34 ERROR PasskeynotsetPASSKEYlemon
-2023-03-04 20:34 RESULT lemonENCRYPTklasjd

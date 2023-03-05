@@ -27,7 +27,7 @@ def printHistory():
 
     while index < len(HISTORY):
 
-        print(f"{index} {' '.join(HISTORY[index])}")
+        print(f"{index} {HISTORY[index]}")
         index += 1
     
     return index
@@ -107,11 +107,12 @@ try:
         encrytion.stdout.readline()
         print(result, end="")
         lastResult = result
-        logger.stdin.write(f"{result}")
+        logger.stdin.write(f"{f'SUCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'} {' '.join(result.split(' ')[1:])}")
         logger.stdin.flush()    
 
         if command[0] != "PASSKEY":
             HISTORY.append(command[1])
+            HISTORY.append("".join(result.split(" "))[1:])
         
 
 except KeyboardInterrupt:
