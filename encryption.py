@@ -19,13 +19,14 @@ def decryptChar(character: chr, passKeyChar: chr) -> chr:
     return chr((overflow) % 26 + 97) if overflow > 25 else chr(overflow + 97)
 
 def setPASSKEY(newPASSKEY: str):
-    PASSKEY = newPASSKEY
+    global PASSKEY
+    PASSKEY = newPASSKEY[:]
 
     return newPASSKEY, True
 
 def ENCRYPT(stringToEncrypt: str) -> tuple[str, bool]:
 
-    if not PASSKEY:
+    if PASSKEY == "":
         return "Passkey not set", False 
     
     encryptedString = []
@@ -46,7 +47,7 @@ def ENCRYPT(stringToEncrypt: str) -> tuple[str, bool]:
 
 def DECRYPT(stringToDecrypt: str):
     
-    if not PASSKEY:
+    if PASSKEY == "":
         return "Passkey not set", False
 
 
@@ -70,31 +71,33 @@ def NOCOMMAND():
 
     return "Not a valid command try again", False
 
-def QUIT(string: str):
-    #WRITE TO LOGGER AND EXIT
-    exit()
-
 while mode != "QUIT":
 
     if mode == "WRITE":
         WRITE = sys.stdin.readline().rstrip()
         WRITE = WRITE.split(" ")
         command = WRITE[0]
-        arguement = WRITE[1]
+        arguement = "".join(WRITE[1:])
 
         options = {
             "PASSKEY": setPASSKEY,
             "ENCRYPT": ENCRYPT,
             "DECRYPT": DECRYPT,
-            "QUIT": QUIT
         }
-
+        
         WRITEBACK = options[command](arguement)
     else:
-        print(f"{f'RESULT {WRITEBACK[0]}' if WRITEBACK[1] else f'ERROR {WRITEBACK[0]}'}")
+
+        if WRITEBACK[1]:
+            print(f"{command} SUCCESS {WRITEBACK[0]}\n")
+        else:
+            print(f"{command} ERROR {WRITEBACK[0]}\n")
+
         sys.stdout.flush()
     
     mode = sys.stdin.readline().rstrip()
+
+exit()
 
     # commandAndArguement = input().split(" ")
 

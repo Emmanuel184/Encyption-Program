@@ -9,12 +9,12 @@ try:
         
         startDate = datetime.today().strftime("%Y-%m-%d %H:%M")
 
-        test.write(f"{startDate} START Logging Started\n")
+        test.write(f"{startDate} [START] Logging Started\n")
        
 
         while True:
 
-            log = sys.stdin.readline().rstrip().split(" ")
+            log = sys.stdin.readline().rstrip('\n').split(" ")
 
             action = log[0]
             
@@ -26,10 +26,10 @@ try:
 
             if action.lower() == "quit":
 
-                test.write(f"{finalWrite[0]} STOP Logging Stopped\n")
-                break
+                test.write(f"{finalWrite[0]} [STOP] Logging Stopped\n")
+                exit()
             
-            finalWrite.append(action)
+            finalWrite.append(f"[{action}]")
             finalWrite.append("".join(message))
 
             test.write(f"{' '.join(finalWrite)}\n")
