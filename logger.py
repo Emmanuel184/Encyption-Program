@@ -14,11 +14,11 @@ try:
 
         while True:
 
-            log = sys.stdin.readline().rstrip('\n').split(" ")
+            log = sys.stdin.readline().lower().rstrip('\n').split(" ")
 
             action = log[0]
             
-            message = log[1:]
+            message = log[1:] if len(log) > 1 else ""
 
             date = datetime.today().strftime("%Y-%m-%d %H:%M")
 
@@ -27,17 +27,15 @@ try:
             if action.lower() == "quit":
 
                 test.write(f"{finalWrite[0]} [STOP] Logging Stopped\n")
-                exit()
+                break
             
             finalWrite.append(f"[{action}]")
             finalWrite.append(" ".join(message))
 
-            test.write(f"{' '.join(finalWrite)}\n")
+            test.write(f"{' '.join(finalWrite).upper()}\n")
 
-        
-
-except BaseException as e:
-    print(str(BaseException))
+except BaseException or KeyboardInterrupt as e:
+    exit()
 
 
 

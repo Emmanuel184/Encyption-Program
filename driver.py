@@ -10,10 +10,10 @@ encrytion = Popen(['python3', 'encryption.py'], stdout=PIPE, stdin=PIPE, encodin
 lastResult = ""
 
 options = {
-    "PASSKEY": "Sets a new password for encryption algorithm",
-    "ENCRYPT": "Encrypts string",
-    "DECRYPT": "Decrypts string",
-    "QUIT": "Quits program"    
+    "passkey": "Sets a new password for encryption algorithm",
+    "encrypt": "Encrypts string",
+    "decrypt": "Decrypts string",
+    "quit": "Quits program"    
 }
 
 HISTORY = []
@@ -80,45 +80,57 @@ try:
 
         printCommands()
 
-        command = input("COMMAND: ").split(" ")
+        command = input("COMMAND: ").lower().split(" ")
 
+        if command[0] == "quit":
+            encrytion.stdin.write("quit\n")
+            encrytion.stdin.flush()
+            logger.stdin.write("quit\n")
+            logger.stdin.flush()
+            break
         if command[0] not in options:
             print("NOT VALID COMMAND")
             continue
 
         useHistory = -1
 
-        if HISTORY:
+        if HISTORY and command[0] != "passkey":
             useHistory = historyReturn()
 
-        command.append(f"{input('Arguement: ') if useHistory == -1 else HISTORY[useHistory]}")
+        command.append(f"{input('Arguement: ').lower() if useHistory == -1 else HISTORY[useHistory].lower()}")
         logger.stdin.write(f"{' '.join(command)}\n")
         logger.stdin.flush()
 
-        if command[0].lower() == "quit":
-            encrytion.stdin.write("QUIT")
-            exit()
             
-        encrytion.stdin.write(f"WRITE\n")
+        encrytion.stdin.write(f"write\n")
         encrytion.stdin.write(f"{' '.join(command)}\n")
-        encrytion.stdin.write(f"READ\n")
+        encrytion.stdin.write(f"read\n")
         encrytion.stdin.flush()
         result = encrytion.stdout.readline()
         encrytion.stdout.readline()
         print(result, end="")
-        lastResult = result
-        logger.stdin.write(f"{f'SUCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'} {' '.join(result.split(' ')[1:])}")
+        lastResult = result.upper()
+        testRESULTSPLIT = result.split(' ')[0]
         logger.stdin.flush()    
 
-        if command[0] != "PASSKEY":
+        if command[0] != "passkey":
+            logger.stdin.write(f"{command[0]} {'SUCCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'} {' '.join(result.split(' ')[1:])}")
+            logger.stdin.flush()
             HISTORY.append(command[1])
-            HISTORY.append("".join(result.split(" "))[1:])
-        
 
+            if result.split(" ")[0] != "ERROR":
+                HISTORY.append("".join(result.split(" "))[1:])
+        else:
+
+            print(result.split(' ')[0])
+            logger.stdin.write(f"{command[0]} {'SUCCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'}\n")
+            logger.stdin.flush()
+
+        
 except KeyboardInterrupt:
-        logger.stdin.write(f"quit")
-        encrytion.stdin.write("QUIT PADDING")
-        exit()
+        logger.stdin.write(f"quit\n")
+        encrytion.stdin.write("quit\n")
+        
 
 
     

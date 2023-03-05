@@ -71,22 +71,22 @@ def NOCOMMAND():
 
     return "Not a valid command try again", False
 
-while mode != "QUIT":
+while mode != "quit":
 
-    if mode == "WRITE":
+    if mode == "write":
         WRITE = sys.stdin.readline().rstrip()
         WRITE = WRITE.split(" ")
         command = WRITE[0]
         arguement = "".join(WRITE[1:])
 
         options = {
-            "PASSKEY": setPASSKEY,
-            "ENCRYPT": ENCRYPT,
-            "DECRYPT": DECRYPT,
+            "passkey": setPASSKEY,
+            "encrypt": ENCRYPT,
+            "decrypt": DECRYPT,
         }
         
         WRITEBACK = options[command](arguement)
-    else:
+    elif mode == "read":
 
         if WRITEBACK[1]:
             print(f"RESULT {WRITEBACK[0]}\n")
