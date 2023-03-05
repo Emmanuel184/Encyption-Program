@@ -30,7 +30,7 @@ try:
                 exit()
             
             finalWrite.append(f"[{action}]")
-            finalWrite.append("".join(message))
+            finalWrite.append(" ".join(message))
 
             test.write(f"{' '.join(finalWrite)}\n")
 

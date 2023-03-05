@@ -22,7 +22,7 @@ def setPASSKEY(newPASSKEY: str):
     global PASSKEY
     PASSKEY = newPASSKEY[:]
 
-    return newPASSKEY, True
+    return "", True
 
 def ENCRYPT(stringToEncrypt: str) -> tuple[str, bool]:
 
@@ -89,9 +89,9 @@ while mode != "QUIT":
     else:
 
         if WRITEBACK[1]:
-            print(f"{command} SUCCESS {WRITEBACK[0]}\n")
+            print(f"SUCCESS {WRITEBACK[0]}\n")
         else:
-            print(f"{command} ERROR {WRITEBACK[0]}\n")
+            print(f"ERROR {WRITEBACK[0]}\n")
 
         sys.stdout.flush()
     
