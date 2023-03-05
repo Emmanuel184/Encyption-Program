@@ -97,21 +97,3 @@ while mode != "quit":
     
     mode = sys.stdin.readline().rstrip()
 
-exit()
-
-    # commandAndArguement = input().split(" ")
-
-    # command = commandAndArguement[0]
-
-    # arguement = commandAndArguement[1] if len(commandAndArguement) > 1 else "PADDING"
-
-    # options = {
-    #     "PASSKEY": setPASSKEY,
-    #     "ENCRYPT": ENCRYPT,
-    #     "DECRYPT": DECRYPT,
-    #     "QUIT": QUIT
-    # }
-
-    # result = options[command](arguement) if command in options and len(commandAndArguement) <= 2 else NOCOMMAND()
-
-    # print(f"{f'RESULT {result[0]}' if result[1] else f'ERROR {result[0]}'}")

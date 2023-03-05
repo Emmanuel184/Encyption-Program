@@ -1,6 +1,9 @@
 import sys
 from datetime import datetime
 
+sys.stdin.flush()
+sys.stdout.flush()
+
 testARGV = sys.argv[1]
 print(testARGV)
 
@@ -14,7 +17,7 @@ try:
 
         while True:
 
-            log = sys.stdin.readline().lower().rstrip('\n').split(" ")
+            log = sys.stdin.readline().rstrip('\n').split(" ")
 
             action = log[0]
             
@@ -24,9 +27,10 @@ try:
 
             finalWrite = [date]
 
-            if action.lower() == "quit":
+            if action == "quit":
 
                 test.write(f"{finalWrite[0]} [STOP] Logging Stopped\n")
+                print("SHOULDVE STOPED")
                 break
             
             finalWrite.append(f"[{action}]")
@@ -35,6 +39,7 @@ try:
             test.write(f"{' '.join(finalWrite).upper()}\n")
 
 except BaseException or KeyboardInterrupt as e:
+    
     exit()
 
 

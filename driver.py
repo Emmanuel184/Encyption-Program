@@ -1,11 +1,14 @@
-from curses.ascii import isdigit
 import sys
 from subprocess import Popen, PIPE
+
 
 
 logger = Popen(['python3', 'logger.py', sys.argv[1]], stdout=PIPE, stdin=PIPE, encoding='utf-8')
 
 encrytion = Popen(['python3', 'encryption.py'], stdout=PIPE, stdin=PIPE, encoding='utf-8')
+
+logger.stdin.flush()
+logger.stdout.flush()
 
 lastResult = ""
 
@@ -13,7 +16,9 @@ options = {
     "passkey": "Sets a new password for encryption algorithm",
     "encrypt": "Encrypts string",
     "decrypt": "Decrypts string",
-    "quit": "Quits program"    
+    "history": "Shows history",
+    "quit": "Quits program"
+    
 }
 
 HISTORY = []
@@ -32,8 +37,17 @@ def printHistory():
     
     return index
     
+def quit():
+    global encrytion
+    global logger
+    encrytion.stdin.write("quit\n")
+    encrytion.stdin.flush()
+    logger.stdin.flush()
+    logger.stdin.write("quit\n")
+    logger.stdin.flush()
+    logger.wait()
     
-
+    
 
 
 def historyReturn() -> int:
@@ -83,14 +97,16 @@ try:
         command = input("COMMAND: ").lower().split(" ")
 
         if command[0] == "quit":
-            encrytion.stdin.write("quit\n")
-            encrytion.stdin.flush()
-            logger.stdin.write("quit\n")
-            logger.stdin.flush()
+            quit()
             break
         if command[0] not in options:
             print("NOT VALID COMMAND")
             continue
+        
+        if command[0] == "history":
+            printHistory()
+            continue
+
 
         useHistory = -1
 
@@ -106,31 +122,33 @@ try:
         encrytion.stdin.write(f"{' '.join(command)}\n")
         encrytion.stdin.write(f"read\n")
         encrytion.stdin.flush()
-        result = encrytion.stdout.readline()
+        result = encrytion.stdout.readline().rstrip('\n')
         encrytion.stdout.readline()
-        print(result, end="")
+        print(result)
         lastResult = result.upper()
         testRESULTSPLIT = result.split(' ')[0]
-        logger.stdin.flush()    
+ 
 
         if command[0] != "passkey":
-            logger.stdin.write(f"{command[0]} {'SUCCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'} {' '.join(result.split(' ')[1:])}")
+            logger.stdin.write(f"{command[0]} {'SUCCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'} {' '.join(result.split(' ')[1:])}\n".lower())
             logger.stdin.flush()
-            HISTORY.append(command[1])
+            if useHistory == -1:
+                HISTORY.append(command[1])
 
             if result.split(" ")[0] != "ERROR":
-                HISTORY.append("".join(result.split(" "))[1:])
+
+                test = result.split(" ")[0]
+                testTwo = "".join(result.split(" ")[1:])
+                
+                HISTORY.append("".join(result.split(" ")[1:]))
         else:
 
-            print(result.split(' ')[0])
-            logger.stdin.write(f"{command[0]} {'SUCCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'}\n")
+            logger.stdin.write(f"{command[0]} {'SUCCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'}\n".lower())
             logger.stdin.flush()
 
         
 except KeyboardInterrupt:
-        logger.stdin.write(f"quit\n")
-        encrytion.stdin.write("quit\n")
-        
+        quit()
 
 
     
