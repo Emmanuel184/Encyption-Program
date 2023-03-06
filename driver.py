@@ -23,7 +23,6 @@ options = {
 
 HISTORY = []
 
-
 def printHistory():
 
     print(f"HISTORY")
@@ -48,8 +47,6 @@ def quit():
     logger.wait()
     
     
-
-
 def historyReturn() -> int:
 
     global HISTORY
@@ -57,7 +54,7 @@ def historyReturn() -> int:
     goIntoHistory = input("Want to go into history? (y/n) ")
 
     if goIntoHistory != "y":
-        return - 1
+        return -1
 
     logger.stdin.write("HISTORY ACCESSED\n")
     logger.stdin.flush()

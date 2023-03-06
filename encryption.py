@@ -24,7 +24,7 @@ def setPASSKEY(newPASSKEY: str):
 
     return "", True
 
-def ENCRYPT(stringToEncrypt: str) -> tuple[str, bool]:
+def ENCRYPT(stringToEncrypt: str):
 
     if PASSKEY == "":
         return "Passkey not set", False 
