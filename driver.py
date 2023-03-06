@@ -110,7 +110,10 @@ try:
         if HISTORY and command[0] != "passkey":
             useHistory = historyReturn()
 
-        command.append(f"{input('Arguement: ').lower() if useHistory == -1 else HISTORY[useHistory].lower()}")
+        #will make the arguement for our command the input from the user if they decide to not use histoty otherwise
+        #will grab arguement from our history list
+        command.append(f"{input('ARGUMENT: ').lower() if useHistory == -1 else HISTORY[useHistory].lower()}")
+        #will write back a single string made up of our strings in our list - command
         logger.stdin.write(f"{' '.join(command)}\n")
         logger.stdin.flush()
 
@@ -123,20 +126,22 @@ try:
         encrytion.stdout.readline()
         print(result)
         lastResult = result.upper()
-        testRESULTSPLIT = result.split(' ')[0]
  
 
         if command[0] != "passkey":
+            #I noticed that in sample run the logger would write "success" if the encryption returns result, this line basically returns a string with sucess instead of result to logger, if the last
+            #command was successfull otherwise just writes error back
             logger.stdin.write(f"{command[0]} {'SUCCESS' if result.split(' ')[0] == 'RESULT' else 'ERROR'} {' '.join(result.split(' ')[1:])}\n".lower())
             logger.stdin.flush()
             if useHistory == -1:
+                #only add arguement to history if history was not used for arguement, this elimantes double history like in the sample run
+                #so 
+                # history - 0. stringX 1. stringX, if we use stringX in our program we will not add stringX again
                 HISTORY.append(command[1])
 
             if result.split(" ")[0] != "ERROR":
-
-                test = result.split(" ")[0]
-                testTwo = "".join(result.split(" ")[1:])
                 
+                #if not passkey and not error will give us back encrypted string we want to add this to history
                 HISTORY.append("".join(result.split(" ")[1:]))
         else:
 
@@ -146,14 +151,3 @@ try:
         
 except KeyboardInterrupt:
         quit()
-
-
-    
-
-
-
-    
-
-
-
-

@@ -67,33 +67,32 @@ def DECRYPT(stringToDecrypt: str):
     
     return "".join(decryptedString), True
 
-def NOCOMMAND():
+try:
+    while mode != "quit":
 
-    return "Not a valid command try again", False
+        if mode == "write":
+            WRITE = sys.stdin.readline().rstrip()
+            WRITE = WRITE.split(" ")
+            command = WRITE[0]
+            arguement = "".join(WRITE[1:])
 
-while mode != "quit":
+            options = {
+                "passkey": setPASSKEY,
+                "encrypt": ENCRYPT,
+                "decrypt": DECRYPT,
+            }
+            
+            WRITEBACK = options[command](arguement)
+        elif mode == "read":
 
-    if mode == "write":
-        WRITE = sys.stdin.readline().rstrip()
-        WRITE = WRITE.split(" ")
-        command = WRITE[0]
-        arguement = "".join(WRITE[1:])
+            if WRITEBACK[1]:
+                print(f"RESULT {WRITEBACK[0]}\n")
+            else:
+                print(f"ERROR {WRITEBACK[0]}\n")
 
-        options = {
-            "passkey": setPASSKEY,
-            "encrypt": ENCRYPT,
-            "decrypt": DECRYPT,
-        }
+            sys.stdout.flush()
         
-        WRITEBACK = options[command](arguement)
-    elif mode == "read":
-
-        if WRITEBACK[1]:
-            print(f"RESULT {WRITEBACK[0]}\n")
-        else:
-            print(f"ERROR {WRITEBACK[0]}\n")
-
-        sys.stdout.flush()
-    
-    mode = sys.stdin.readline().rstrip()
+        mode = sys.stdin.readline().rstrip()
+except KeyboardInterrupt:
+    exit()
 

@@ -7,6 +7,15 @@ sys.stdout.flush()
 testARGV = sys.argv[1]
 print(testARGV)
 
+def quit():
+    try:
+        with open(sys.argv[1], "a") as quit:
+            endDate = datetime.today().strftime("%Y-%m-%d %H:%M")
+            quit.write(f"{endDate} [STOP] Logging Stopped from KeyboardInterrupt\n")
+            exit()
+    except:
+        pass
+
 try:
     with open(sys.argv[1], "a") as test:
         
@@ -30,7 +39,6 @@ try:
             if action == "quit":
 
                 test.write(f"{finalWrite[0]} [STOP] Logging Stopped\n")
-                print("SHOULDVE STOPED")
                 break
             
             finalWrite.append(f"[{action}]")
@@ -39,11 +47,4 @@ try:
             test.write(f"{' '.join(finalWrite).upper()}\n")
 
 except BaseException or KeyboardInterrupt as e:
-    
-    exit()
-
-
-
-
-
-
+    quit()
